@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Data = ({ ly, title }) => {
+const Data = ({ title, click }) => {
   return (
     <div>
-      <h1>{ly}</h1>
-      <button>{title}</button>
+      <button onClick={click}>{title}</button>
     </div>
   );
 };
