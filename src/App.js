@@ -1,31 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Loading from './components/Loading';
 import Container from './components/Container';
 import Timer from './components/Timer';
-import Data from './components/Data';
 import axios from 'axios';
 
 function App() {
   const [songs, setSongs] = useState([]);
   const [count, setCount] = useState(0);
   const [lyrics] = useState([]);
-  const [corret, setCorret] = useState([]);
+  // const [corret, setCorret] = useState([]);
   const [view, setView] = useState([]);
-  const [change, setChange] = useState(
-    '어디론가 날 데려가 줄래 아님 저 바람 부는 대로 그냥 흘러가게 둬 얼마나 온 걸까 여긴 어디쯤일까',
-  );
+  const [change, setChange] = useState(null);
+  // '어디론가 날 데려가 줄래 아님 저 바람 부는 대로 그냥 흘러가게 둬 얼마나 온 걸까 여긴 어디쯤일까',
   const [wrongAnswer, setWrongAnser] = useState(0);
   const [rightAnswer, setRightgAnser] = useState(0);
-
+  const [isLoding, setIsLoding] = useState(true);
   useEffect(() => {
-    axios
-      .get('../dummy/song_list.json')
-      .then(({ data }) => {
-        setSongs(data.songList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    axios.get('../dummy/song_list.json').then(({ data }) => {
+      setSongs(data.songList);
+      setIsLoding(false);
+    });
+  }, [isLoding]);
 
   const inTitle = useCallback(
     (e) => {
@@ -36,10 +31,7 @@ function App() {
       }
 
       // 타이틀 바꾸기
-      if (lyrics.length === 0) {
-        songs.map((v) => lyrics.push(v.lyrics));
-      }
-      setChange(lyrics[count + 1]);
+      setChange(lyrics[count]);
 
       // 맞는지 틀린지 판단
       if (e.target.textContent === songs[count].title) {
@@ -52,25 +44,35 @@ function App() {
     [count, lyrics, songs, rightAnswer, wrongAnswer],
   );
 
-  //수정해야할부분
-  useEffect(() => {
-    songs.map((v) => v.filter());
-    if (0 === count) {
-      // setCorret(view.slice(count, 1), view);
+  const what = () => {
+    const shuffle = [];
+    if (view.length === 0) {
+      songs.map((v) => view.push(v.title));
+      songs.map((v) => lyrics.push(v.lyrics));
     }
-  }, [count, view, songs]);
+    for (let i = 0; i < 10; i++) {
+      shuffle.push(view.splice(Math.floor(Math.random() * view.length), 1)[0]);
+    }
+    console.log(shuffle);
+  };
 
   return (
     <>
-      <Container>
-        <Timer mm={2} ss={0} />
-        <div>{count}/10</div>
-        <h1>{change}</h1>
-        {songs.map((song) => {
-          return <Data key={song.id} title={song.title} click={inTitle} />;
-        })}
-        {rightAnswer}:{wrongAnswer}
-      </Container>
+      {isLoding ? (
+        <div>
+          <Loading />
+        </div>
+      ) : (
+        <Container>
+          <Timer mm={2} ss={0} />
+          <div>{count}/10</div>
+          <h1>{change && !undefined}</h1>
+          <button onClick={inTitle}>{view}</button>
+          <button onClick={inTitle}>{view}</button>
+          <button onClick={inTitle}>{view}</button>
+          {rightAnswer}:{wrongAnswer}
+        </Container>
+      )}
     </>
   );
 }
