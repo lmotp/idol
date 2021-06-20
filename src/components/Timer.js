@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Timer = ({ mm, ss }) => {
+const Timer = ({ mm, ss, counter }) => {
   const [minutes, setMinutes] = useState(parseInt(mm));
   const [seconds, setSeconds] = useState(parseInt(ss));
 
@@ -20,7 +20,6 @@ const Timer = ({ mm, ss }) => {
     }, 1000);
     return () => clearInterval(countdown);
   }, [minutes, seconds]);
-
   return (
     <div>
       <h1>CountDown!</h1>

@@ -15,7 +15,6 @@ function App() {
   const [wrongAnswer, setWrongAnser] = useState(0);
   const [rightAnswer, setRightgAnser] = useState(0);
   const [isLoding, setIsLoding] = useState(true);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   // 셔플하기
   const shuffleBox = () => {
@@ -26,12 +25,18 @@ function App() {
 
     // 보기 섞기
     const shuffle = [];
+    const shuffle2 = [];
     songs.map((v) => view.push(v.title));
-    for (let i = 0; i < 10; i++) {
+    const wow = view.splice(count, 1);
+    for (let i = 0; i < 9; i++) {
       shuffle.push(view.splice(Math.floor(Math.random() * view.length), 1)[0]);
     }
-
-    setResult(shuffle.slice(0, 4));
+    shuffle.unshift(wow);
+    const noNmae = shuffle.slice(0, 4);
+    for (let i = 0; i < 4; i++) {
+      shuffle2.push(noNmae.splice(Math.floor(Math.random() * noNmae.length), 1)[0]);
+    }
+    setResult(shuffle2);
   };
 
   useEffect(() => {
@@ -49,6 +54,7 @@ function App() {
     if (count === 10) {
       return setCount(10);
     }
+
     shuffleBox();
     // 맞는지 틀린지 판단
     if (e.target.textContent === songs[count].title) {
@@ -60,10 +66,7 @@ function App() {
 
   // 카운터가 10개 넘으면은 결과창으로
   if (count === 10) {
-    setTimeout(() => setShouldRedirect(true), 2000);
-    if (shouldRedirect) {
-      return <Redirect to="/result" />;
-    }
+    return <Redirect to="/result" />;
   }
 
   return (
@@ -76,7 +79,7 @@ function App() {
         <Container>
           <Timer mm={0} ss={30} />
           <h1>{change}</h1>
-          <div>{count}/10</div>
+          <div>{count + 1}/10</div>
           <button onClick={inTitle}>{result[0]}</button>
           <button onClick={inTitle}>{result[1]}</button>
           <button onClick={inTitle}>{result[2]}</button>
