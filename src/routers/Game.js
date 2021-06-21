@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import Container from '../components/Container';
-import Timer from '../components/Timer';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -15,6 +14,7 @@ function App() {
   const [wrongAnswer, setWrongAnser] = useState(0);
   const [rightAnswer, setRightgAnser] = useState(0);
   const [isLoding, setIsLoding] = useState(true);
+  const [seconds, setSeconds] = useState(15);
 
   // 셔플하기
   const shuffleBox = () => {
@@ -39,6 +39,7 @@ function App() {
     setResult(shuffle2);
   };
 
+  // 첫 시작값
   useEffect(() => {
     axios.get('../dummy/song_list.json').then(({ data }) => {
       setSongs(data.songList);
@@ -55,6 +56,8 @@ function App() {
       return setCount(10);
     }
 
+    setSeconds(15);
+
     shuffleBox();
     // 맞는지 틀린지 판단
     if (e.target.textContent === songs[count].title) {
@@ -64,9 +67,32 @@ function App() {
     }
   };
 
+  // 타이머
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      if (parseInt(seconds) > 0) {
+        setSeconds(parseInt(seconds) - 1);
+      }
+      if (parseInt(seconds) === 0) {
+        setCount(count + 1);
+        setWrongAnser(wrongAnswer + 1);
+        setSeconds(15);
+      }
+    }, 1000);
+    return () => clearInterval(countdown);
+  }, [seconds, count, wrongAnswer]);
+
   // 카운터가 10개 넘으면은 결과창으로
   if (count === 10) {
-    return <Redirect to="/result" />;
+    if (rightAnswer <= 2) {
+      return <Redirect to="/result1" />;
+    } else if (rightAnswer <= 5) {
+      return <Redirect to="/result2" />;
+    } else if (rightAnswer <= 8) {
+      return <Redirect to="/result3" />;
+    } else {
+      return <Redirect to="/result4" />;
+    }
   }
 
   return (
@@ -77,7 +103,7 @@ function App() {
         </div>
       ) : (
         <Container>
-          <Timer mm={0} ss={30} />
+          <h2>{seconds < 10 ? `0${seconds}` : seconds}</h2>
           <h1>{change}</h1>
           <div>{count + 1}/10</div>
           <button onClick={inTitle}>{result[0]}</button>

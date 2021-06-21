@@ -2,14 +2,20 @@ import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import Home from './routers/Home';
 import Game from './routers/Game';
-import Result from './routers/Result';
+import Result1 from './routers/Result/Result1';
+import Result2 from './routers/Result/Result2';
+import Result3 from './routers/Result/Result3';
+import Result4 from './routers/Result/Result4';
 
 const App = () => {
   return (
     <HashRouter>
       <Route path="/" exact={true} component={Home} />
       <Route path="/game" component={Game} />
-      <Route path="/result" component={Result} />
+      <Route path="/result1" component={Result1} />
+      <Route path="/result2" component={Result2} />
+      <Route path="/result3" component={Result3} />
+      <Route path="/result4" component={Result4} />
     </HashRouter>
   );
 };
