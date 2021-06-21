@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/idol/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/idol/static/js/main.750ec26e.chunk.js",
-    "main.js.map": "/idol/static/js/main.750ec26e.chunk.js.map",
+    "main.js": "/idol/static/js/main.ee22d602.chunk.js",
+    "main.js.map": "/idol/static/js/main.ee22d602.chunk.js.map",
     "runtime-main.js": "/idol/static/js/runtime-main.80fed057.js",
     "runtime-main.js.map": "/idol/static/js/runtime-main.80fed057.js.map",
     "static/js/2.66967c24.chunk.js": "/idol/static/js/2.66967c24.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.80fed057.js",
     "static/js/2.66967c24.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.750ec26e.chunk.js"
+    "static/js/main.ee22d602.chunk.js"
   ]
 }
