@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import Loading from '../components/Loading';
 import Container from '../components/Container';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import '../Css/Game.css';
+import { UserContext } from '../components/Users';
 
-function App() {
+function Game() {
+  const list = useContext(UserContext);
   const [songs, setSongs] = useState([]);
   const [count, setCount] = useState(0);
   const [lyrics, setLyrics] = useState([]);
@@ -14,7 +16,9 @@ function App() {
   const [wrongAnswer, setWrongAnser] = useState(0);
   const [rightAnswer, setRightgAnser] = useState(0);
   const [isLoding, setIsLoding] = useState(true);
-  const [seconds, setSeconds] = useState(15);
+  const [seconds, setSeconds] = useState(30);
+  const [plusCount, setPlusCount] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   // 셔플하기
   const shuffleBox = () => {
@@ -39,14 +43,22 @@ function App() {
     setResult(shuffle2);
   };
 
+  const move = useCallback(() => {
+    setDisabled(true);
+    setSeconds(30);
+    setPlusCount(false);
+    setTimeout(() => {
+      setPlusCount(true);
+      setDisabled(false);
+    }, 900);
+  }, [disabled, seconds, plusCount]);
+
   // 첫 시작값
   useEffect(() => {
-    axios.get('../dummy/song_list.json').then(({ data }) => {
-      setSongs(data.songList);
-      setIsLoding(false);
-      shuffleBox();
-    });
-    return shuffleBox;
+    setSongs(list.songList);
+    setIsLoding(false);
+    shuffleBox();
+    return shuffleBox();
   }, [isLoding, count]);
 
   const inTitle = (e) => {
@@ -55,9 +67,7 @@ function App() {
     if (count === 10) {
       return setCount(10);
     }
-
-    setSeconds(15);
-
+    move();
     shuffleBox();
     // 맞는지 틀린지 판단
     if (e.target.textContent === songs[count].title) {
@@ -76,11 +86,11 @@ function App() {
       if (parseInt(seconds) === 0) {
         setCount(count + 1);
         setWrongAnser(wrongAnswer + 1);
-        setSeconds(15);
+        move();
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [seconds, count, wrongAnswer]);
+  }, [seconds, count, wrongAnswer, move]);
 
   // 카운터가 10개 넘으면은 결과창으로
   if (count === 10) {
@@ -103,18 +113,29 @@ function App() {
         </div>
       ) : (
         <Container>
-          <h2>{seconds < 10 ? `0${seconds}` : seconds}</h2>
-          <h1>{change}</h1>
-          <div>{count + 1}/10</div>
-          <button onClick={inTitle}>{result[0]}</button>
-          <button onClick={inTitle}>{result[1]}</button>
-          <button onClick={inTitle}>{result[2]}</button>
-          <button onClick={inTitle}>{result[3]}</button>
-          {rightAnswer}:{wrongAnswer}
+          <h2 className="topBar">
+            {seconds < 10 ? `0${seconds}` : seconds}
+            <span>Q{count + 1}/10</span>
+          </h2>
+          <h1 className="question">{change}</h1>
+          <div className="buttonBox">
+            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
+              {result[0]}
+            </button>
+            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
+              {result[1]}
+            </button>
+            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
+              {result[2]}
+            </button>
+            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
+              {result[3]}
+            </button>
+          </div>
         </Container>
       )}
     </>
   );
 }
 
-export default App;
+export default Game;

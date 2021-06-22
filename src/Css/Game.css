@@ -1,0 +1,92 @@
+@font-face {
+  font-family: 'TTTogether';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MapoHongdaeFreedom';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoHongdaeFreedomA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'TTTogether';
+  color: rgb(63, 63, 63);
+}
+
+button {
+  width: 250px;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: transparent;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: khaki;
+  color: whitesmoke;
+}
+
+img {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.topBar {
+  margin: 50px auto 0;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.question {
+  width: 500px;
+  height: 100px;
+  text-align: center;
+  margin: 70px auto;
+  font-family: 'MapoHongdaeFreedom';
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.buttonRightMove {
+  animation: buttonRightMove 1s ease-out;
+}
+
+.buttonLeftMove {
+  animation: buttonLeftMove 1s ease-out;
+}
+
+@keyframes buttonRightMove {
+  0% {
+    transform: translateX(-700px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0.9;
+  }
+}
+
+@keyframes buttonLeftMove {
+  0% {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(700px);
+    opacity: 0;
+  }
+}

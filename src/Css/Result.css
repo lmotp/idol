@@ -1,0 +1,11 @@
+.result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.resultImg {
+  margin: 50px auto;
+}
