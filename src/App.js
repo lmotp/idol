@@ -6,7 +6,7 @@ import Result1 from './routers/Result/Result1';
 import Result2 from './routers/Result/Result2';
 import Result3 from './routers/Result/Result3';
 import Result4 from './routers/Result/Result4';
-import Users from './components/Users';
+import { Users } from './Users';
 
 const App = () => {
   return (

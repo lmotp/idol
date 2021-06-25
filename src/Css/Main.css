@@ -1,3 +1,24 @@
+
+* {
+  font-family: 'TTTogether';
+  color: rgb(63, 63, 63);
+}
+
+@font-face {
+  font-family: 'TTTogether';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MapoHongdaeFreedom';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoHongdaeFreedomA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 .main {
   display: flex;
   flex-direction: column;
@@ -7,5 +28,5 @@
 }
 
 .mainImg {
-  margin: 50px auto;
+  margin: 35px auto;
 }

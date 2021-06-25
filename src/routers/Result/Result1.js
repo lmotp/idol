@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Container from '../../components/Container';
 import { Link } from 'react-router-dom';
 import Hwa from '../../images/Hwa.png';
-import { UserContext } from '../../components/Users';
 import '../../Css/Result.css';
 
 const Result = () => {
-  const context = useContext(UserContext);
-  console.log(context);
   return (
     <>
       <Container>

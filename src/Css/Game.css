@@ -1,22 +1,3 @@
-@font-face {
-  font-family: 'TTTogether';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'MapoHongdaeFreedom';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoHongdaeFreedomA.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-* {
-  font-family: 'TTTogether';
-  color: rgb(63, 63, 63);
-}
-
 button {
   width: 250px;
   font-size: 18px;
@@ -26,6 +7,8 @@ button {
   margin: 10px auto;
   cursor: pointer;
   transition: 0.3s;
+  border: none;
+  box-shadow: 4px 4px 3px rgba(0,0,0,0.4),-3px -3px 1px rgba(0,0,0,0.05)
 }
 
 button:hover {
@@ -62,11 +45,11 @@ img {
 }
 
 .buttonRightMove {
-  animation: buttonRightMove 1s ease-out;
+  animation: buttonRightMove 0.8s ease-out;
 }
 
 .buttonLeftMove {
-  animation: buttonLeftMove 1s ease-out;
+  animation: buttonLeftMove 0.8s ease-out;
 }
 
 @keyframes buttonRightMove {

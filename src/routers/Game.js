@@ -1,14 +1,20 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 import Container from '../components/Container';
 import { Redirect } from 'react-router-dom';
 import '../Css/Game.css';
-import { UserContext } from '../components/Users';
+import { useUsersCounter, useUsersState } from '../Users';
+import { Timer } from '../components/Timer';
 
 function Game() {
-  const list = useContext(UserContext);
+  const context = useUsersState();
+  const counter = useUsersCounter();
+
+  // const dispatch = useUserDispatch();
+  // const countplus = () => dispatch({ type: 'COUNT' });
+  // console.log(context.counter);
   const [songs, setSongs] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(counter);
   const [lyrics, setLyrics] = useState([]);
   const [view] = useState([]);
   const [change, setChange] = useState('');
@@ -50,12 +56,12 @@ function Game() {
     setTimeout(() => {
       setPlusCount(true);
       setDisabled(false);
-    }, 900);
+    }, 700);
   }, [disabled, seconds, plusCount]);
 
   // 첫 시작값
   useEffect(() => {
-    setSongs(list.songList);
+    setSongs(context.songList);
     setIsLoding(false);
     shuffleBox();
     return shuffleBox();
@@ -114,7 +120,7 @@ function Game() {
       ) : (
         <Container>
           <h2 className="topBar">
-            {seconds < 10 ? `0${seconds}` : seconds}
+            <Timer mm={30} />
             <span>Q{count + 1}/10</span>
           </h2>
           <h1 className="question">{change}</h1>
@@ -131,6 +137,7 @@ function Game() {
             <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
               {result[3]}
             </button>
+            <button>{counter.current}</button>
           </div>
         </Container>
       )}
