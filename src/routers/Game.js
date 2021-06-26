@@ -3,28 +3,23 @@ import Loading from '../components/Loading';
 import Container from '../components/Container';
 import { Redirect } from 'react-router-dom';
 import '../Css/Game.css';
-import { useUsersCounter, useUsersState } from '../Users';
-import { Timer } from '../components/Timer';
+import { useUsersState, useUsersDispatch } from '../Users';
 
 function Game() {
   const context = useUsersState();
-  const counter = useUsersCounter();
-
-  // const dispatch = useUserDispatch();
-  // const countplus = () => dispatch({ type: 'COUNT' });
-  // console.log(context.counter);
+  const dispatch = useUsersDispatch();
   const [songs, setSongs] = useState([]);
-  const [count, setCount] = useState(counter);
+  const [count, setCount] = useState(0);
   const [lyrics, setLyrics] = useState([]);
   const [view] = useState([]);
   const [change, setChange] = useState('');
   const [result, setResult] = useState([]);
-  const [wrongAnswer, setWrongAnser] = useState(0);
-  const [rightAnswer, setRightgAnser] = useState(0);
   const [isLoding, setIsLoding] = useState(true);
   const [seconds, setSeconds] = useState(30);
   const [plusCount, setPlusCount] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [right, setRight] = useState(0);
+  const [wrong, setWrong] = useState(0);
 
   // 셔플하기
   const shuffleBox = () => {
@@ -77,9 +72,11 @@ function Game() {
     shuffleBox();
     // 맞는지 틀린지 판단
     if (e.target.textContent === songs[count].title) {
-      setRightgAnser(rightAnswer + 1);
+      setRight(right + 1);
+      dispatch({ type: 'RIGHT' });
     } else {
-      setWrongAnser(wrongAnswer + 1);
+      setWrong(wrong + 1);
+      dispatch({ type: 'WRONG' });
     }
   };
 
@@ -91,20 +88,20 @@ function Game() {
       }
       if (parseInt(seconds) === 0) {
         setCount(count + 1);
-        setWrongAnser(wrongAnswer + 1);
+        dispatch({ type: 'WRONG' });
         move();
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [seconds, count, wrongAnswer, move]);
+  }, [seconds, count, move]);
 
   // 카운터가 10개 넘으면은 결과창으로
   if (count === 10) {
-    if (rightAnswer <= 2) {
+    if (context.rightCounter <= 2) {
       return <Redirect to="/result1" />;
-    } else if (rightAnswer <= 5) {
+    } else if (context.rightCounter <= 5) {
       return <Redirect to="/result2" />;
-    } else if (rightAnswer <= 8) {
+    } else if (context.rightCounter <= 8) {
       return <Redirect to="/result3" />;
     } else {
       return <Redirect to="/result4" />;
@@ -120,7 +117,7 @@ function Game() {
       ) : (
         <Container>
           <h2 className="topBar">
-            <Timer mm={30} />
+            {seconds < 10 ? `0${seconds}` : seconds}
             <span>Q{count + 1}/10</span>
           </h2>
           <h1 className="question">{change}</h1>
@@ -137,7 +134,6 @@ function Game() {
             <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
               {result[3]}
             </button>
-            <button>{counter.current}</button>
           </div>
         </Container>
       )}

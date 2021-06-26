@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useRef } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 const initializer = {
   songList: [
     {
@@ -62,52 +62,44 @@ const initializer = {
       lyrics: '님 얼굴에 침을 뱉어 오점 하나 생겨 우린 남이 됐다',
     },
   ],
+  rightCounter: 0,
+  wrongCounter: 0,
 };
 
 const reduer = (state, action) => {
   switch (action.type) {
-    case 'COUNT':
-      return console.log('hi');
+    case 'RIGHT':
+      return { ...state, rightCounter: state.rightCounter + 1 };
+    case 'WRONG':
+      return { ...state, wrongCounter: state.wrongCounter + 1 };
+    case 'RESET':
+      return { ...state, wrongCounter: 0, rightCounter: 0 };
     default:
-      throw new Error(`Unhanled action type$ {action.type}`);
+      throw new Error(`Unhanled action type ${action.type}`);
   }
 };
 
-const UserStateContext = createContext();
-// const UsersDispatchContext = createContext();
-const UsersCounterContext = createContext();
+export const UserStateContext = createContext();
+export const UsersDispatchContext = createContext();
 export const Users = ({ children }) => {
   const [state, dispatch] = useReducer(reduer, initializer);
-  const counter = useRef(0);
 
   return (
-    <UserStateContext.Provider value={state}>
-      <UsersCounterContext.Provider value={counter}>{children}</UsersCounterContext.Provider>
-      {/* <UsersDispatchContext.Provider value={dispatch}></UsersDispatchContext.Provider> */}
-    </UserStateContext.Provider>
+    console.log(state),
+    (
+      <UserStateContext.Provider value={state}>
+        <UsersDispatchContext.Provider value={dispatch}>{children}</UsersDispatchContext.Provider>
+      </UserStateContext.Provider>
+    )
   );
 };
 
-export const useUsersState = () => {
+export function useUsersState() {
   const context = useContext(UserStateContext);
-  if (!context) {
-    throw new Error('Cannot find Users');
-  }
   return context;
-};
+}
 
-// export const useUserDispatch = () => {
-//   const context = useContext(UsersDispatchContext);
-//   if (!context) {
-//     throw new Error('Cannot find Users');
-//   }
-//   return context;
-// };
-
-export const useUsersCounter = () => {
-  const context = useContext(UsersCounterContext);
-  if (!context) {
-    throw new Error('Can not find Users');
-  }
+export function useUsersDispatch() {
+  const context = useContext(UsersDispatchContext);
   return context;
-};
+}

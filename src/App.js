@@ -10,16 +10,18 @@ import { Users } from './Users';
 
 const App = () => {
   return (
-    <Users>
-      <HashRouter>
-        <Route path="/" exact={true} component={Home} />
-        <Route path="/game" component={Game} />
-        <Route path="/result1" component={Result1} />
-        <Route path="/result2" component={Result2} />
-        <Route path="/result3" component={Result3} />
-        <Route path="/result4" component={Result4} />
-      </HashRouter>
-    </Users>
+    <>
+      <Users>
+        <HashRouter>
+          <Route path="/" exact={true} component={Home} />
+          <Route path="/game" component={Game} />
+          <Route path="/result1" component={Result1} />
+          <Route path="/result2" component={Result2} />
+          <Route path="/result3" component={Result3} />
+          <Route path="/result4" component={Result4} />
+        </HashRouter>
+      </Users>
+    </>
   );
 };
 
