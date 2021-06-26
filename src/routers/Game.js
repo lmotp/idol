@@ -3,79 +3,43 @@ import Loading from '../components/Loading';
 import Container from '../components/Container';
 import { Redirect } from 'react-router-dom';
 import '../Css/Game.css';
-import { useUsersState, useUsersDispatch } from '../Users';
+import { useUsersState, useUsersDispatch, useUsersTitle, useUsresLyrics } from '../Users';
 
 function Game() {
   const context = useUsersState();
   const dispatch = useUsersDispatch();
-  const [songs, setSongs] = useState([]);
-  const [count, setCount] = useState(0);
-  const [lyrics, setLyrics] = useState([]);
-  const [view] = useState([]);
-  const [change, setChange] = useState('');
-  const [result, setResult] = useState([]);
+  const shuffleTitle = useUsersTitle();
+  const lyrics = useUsresLyrics();
+
   const [isLoding, setIsLoding] = useState(true);
   const [seconds, setSeconds] = useState(30);
-  const [plusCount, setPlusCount] = useState(true);
+  const [animation, setAnimation] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const [right, setRight] = useState(0);
-  const [wrong, setWrong] = useState(0);
 
-  // 셔플하기
-  const shuffleBox = () => {
-    // 타이틀 바꾸기
-    setLyrics([]);
-    songs.map((v) => lyrics.push(v.lyrics));
-    setChange(lyrics[count]);
+  // 로딩화면
+  useEffect(() => {
+    setIsLoding(false);
+  }, [isLoding]);
 
-    // 보기 섞기
-    const shuffle = [];
-    const shuffle2 = [];
-    songs.map((v) => view.push(v.title));
-    const wow = view.splice(count, 1);
-    for (let i = 0; i < 9; i++) {
-      shuffle.push(view.splice(Math.floor(Math.random() * view.length), 1)[0]);
-    }
-    shuffle.unshift(wow);
-    const noNmae = shuffle.slice(0, 4);
-    for (let i = 0; i < 4; i++) {
-      shuffle2.push(noNmae.splice(Math.floor(Math.random() * noNmae.length), 1)[0]);
-    }
-    setResult(shuffle2);
-  };
-
-  const move = useCallback(() => {
+  //시간초 다시 리셋하면서 애니메이션까지
+  const titleMoveConfirm = useCallback(() => {
     setDisabled(true);
     setSeconds(30);
-    setPlusCount(false);
+    setAnimation(false);
     setTimeout(() => {
-      setPlusCount(true);
+      setAnimation(true);
       setDisabled(false);
     }, 700);
-  }, [disabled, seconds, plusCount]);
+  }, [disabled, seconds, animation]);
 
-  // 첫 시작값
-  useEffect(() => {
-    setSongs(context.songList);
-    setIsLoding(false);
-    shuffleBox();
-    return shuffleBox();
-  }, [isLoding, count]);
+  // 보기 클릭했을때
+  const onClickChangeTitle = (e) => {
+    titleMoveConfirm();
 
-  const inTitle = (e) => {
-    // 카운터 늘리기
-    setCount(count + 1);
-    if (count === 10) {
-      return setCount(10);
-    }
-    move();
-    shuffleBox();
     // 맞는지 틀린지 판단
-    if (e.target.textContent === songs[count].title) {
-      setRight(right + 1);
+    if (e.target.textContent === context.songList[context.counter].title) {
       dispatch({ type: 'RIGHT' });
     } else {
-      setWrong(wrong + 1);
       dispatch({ type: 'WRONG' });
     }
   };
@@ -87,16 +51,15 @@ function Game() {
         setSeconds(parseInt(seconds) - 1);
       }
       if (parseInt(seconds) === 0) {
-        setCount(count + 1);
         dispatch({ type: 'WRONG' });
-        move();
+        titleMoveConfirm();
       }
     }, 1000);
     return () => clearInterval(countdown);
-  }, [seconds, count, move]);
+  }, [seconds, titleMoveConfirm, dispatch]);
 
   // 카운터가 10개 넘으면은 결과창으로
-  if (count === 10) {
+  if (context.counter === 10) {
     if (context.rightCounter <= 2) {
       return <Redirect to="/result1" />;
     } else if (context.rightCounter <= 5) {
@@ -118,21 +81,37 @@ function Game() {
         <Container>
           <h2 className="topBar">
             {seconds < 10 ? `0${seconds}` : seconds}
-            <span>Q{count + 1}/10</span>
+            <span>Q{context.counter + 1}/10</span>
           </h2>
-          <h1 className="question">{change}</h1>
+          <h1 className="question">{lyrics[context.counter]}</h1>
           <div className="buttonBox">
-            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
-              {result[0]}
+            <button
+              disabled={disabled}
+              className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
+              onClick={onClickChangeTitle}
+            >
+              {shuffleTitle[0]}
             </button>
-            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
-              {result[1]}
+            <button
+              disabled={disabled}
+              className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
+              onClick={onClickChangeTitle}
+            >
+              {shuffleTitle[1]}
             </button>
-            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
-              {result[2]}
+            <button
+              disabled={disabled}
+              className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
+              onClick={onClickChangeTitle}
+            >
+              {shuffleTitle[2]}
             </button>
-            <button disabled={disabled} className={plusCount ? 'buttonRightMove' : 'buttonLeftMove'} onClick={inTitle}>
-              {result[3]}
+            <button
+              disabled={disabled}
+              className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
+              onClick={onClickChangeTitle}
+            >
+              {shuffleTitle[3]}
             </button>
           </div>
         </Container>

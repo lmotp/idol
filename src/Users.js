@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useState } from 'react';
 const initializer = {
   songList: [
     {
@@ -64,31 +64,64 @@ const initializer = {
   ],
   rightCounter: 0,
   wrongCounter: 0,
+  counter: 0,
 };
 
 const reduer = (state, action) => {
   switch (action.type) {
     case 'RIGHT':
-      return { ...state, rightCounter: state.rightCounter + 1 };
+      return { ...state, counter: state.counter + 1, rightCounter: state.rightCounter + 1 };
     case 'WRONG':
-      return { ...state, wrongCounter: state.wrongCounter + 1 };
+      return { ...state, wrongCounter: state.wrongCounter + 1, counter: state.counter + 1 };
     case 'RESET':
-      return { ...state, wrongCounter: 0, rightCounter: 0 };
+      return { ...state, wrongCounter: 0, rightCounter: 0, counter: 0 };
     default:
       throw new Error(`Unhanled action type ${action.type}`);
   }
 };
 
-export const UserStateContext = createContext();
-export const UsersDispatchContext = createContext();
+const UserStateContext = createContext();
+const UsersDispatchContext = createContext();
+const UsersShuffleTitle = createContext();
+const UserChangeLyrics = createContext();
+
 export const Users = ({ children }) => {
   const [state, dispatch] = useReducer(reduer, initializer);
+
+  //문제 바꾸기
+  const changeLyrics = () => {
+    const lyrics = [];
+    state.songList.map((v) => lyrics.push(v.lyrics));
+    return lyrics;
+  };
+
+  // 보기창 바꾸기
+  const shuffleBox = () => {
+    const view = [];
+    const shuffle = [];
+    const shuffle2 = [];
+    state.songList.map((v) => view.push(v.title));
+    const wow = view.splice(state.counter, 1);
+    for (let i = 0; i < 9; i++) {
+      shuffle.push(view.splice(Math.floor(Math.random() * view.length), 1)[0]);
+    }
+    shuffle.unshift(wow);
+    const noNmae = shuffle.slice(0, 4);
+    for (let i = 0; i < 4; i++) {
+      shuffle2.push(noNmae.splice(Math.floor(Math.random() * noNmae.length), 1)[0]);
+    }
+    return shuffle2;
+  };
 
   return (
     console.log(state),
     (
       <UserStateContext.Provider value={state}>
-        <UsersDispatchContext.Provider value={dispatch}>{children}</UsersDispatchContext.Provider>
+        <UsersDispatchContext.Provider value={dispatch}>
+          <UsersShuffleTitle.Provider value={shuffleBox()}>
+            <UserChangeLyrics.Provider value={changeLyrics()}>{children}</UserChangeLyrics.Provider>
+          </UsersShuffleTitle.Provider>
+        </UsersDispatchContext.Provider>
       </UserStateContext.Provider>
     )
   );
@@ -101,5 +134,15 @@ export function useUsersState() {
 
 export function useUsersDispatch() {
   const context = useContext(UsersDispatchContext);
+  return context;
+}
+
+export function useUsersTitle() {
+  const context = useContext(UsersShuffleTitle);
+  return context;
+}
+
+export function useUsresLyrics() {
+  const context = useContext(UserChangeLyrics);
   return context;
 }
