@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/idol/static/css/main.f506d94b.chunk.css",
-    "main.js": "/idol/static/js/main.56b8c8dd.chunk.js",
-    "main.js.map": "/idol/static/js/main.56b8c8dd.chunk.js.map",
+    "main.css": "/idol/static/css/main.b67db1fa.chunk.css",
+    "main.js": "/idol/static/js/main.9655a339.chunk.js",
+    "main.js.map": "/idol/static/js/main.9655a339.chunk.js.map",
     "runtime-main.js": "/idol/static/js/runtime-main.80fed057.js",
     "runtime-main.js.map": "/idol/static/js/runtime-main.80fed057.js.map",
-    "static/js/2.ebea4d21.chunk.js": "/idol/static/js/2.ebea4d21.chunk.js",
-    "static/js/2.ebea4d21.chunk.js.map": "/idol/static/js/2.ebea4d21.chunk.js.map",
+    "static/js/2.832317ee.chunk.js": "/idol/static/js/2.832317ee.chunk.js",
+    "static/js/2.832317ee.chunk.js.map": "/idol/static/js/2.832317ee.chunk.js.map",
     "index.html": "/idol/index.html",
-    "static/css/main.f506d94b.chunk.css.map": "/idol/static/css/main.f506d94b.chunk.css.map",
-    "static/js/2.ebea4d21.chunk.js.LICENSE.txt": "/idol/static/js/2.ebea4d21.chunk.js.LICENSE.txt",
+    "static/css/main.b67db1fa.chunk.css.map": "/idol/static/css/main.b67db1fa.chunk.css.map",
+    "static/js/2.832317ee.chunk.js.LICENSE.txt": "/idol/static/js/2.832317ee.chunk.js.LICENSE.txt",
     "static/media/Hwa.2ca4f379.png": "/idol/static/media/Hwa.2ca4f379.png",
     "static/media/Moon.8d747d99.png": "/idol/static/media/Moon.8d747d99.png",
     "static/media/Sol.adf4f18a.png": "/idol/static/media/Sol.adf4f18a.png",
@@ -18,8 +18,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.80fed057.js",
-    "static/js/2.ebea4d21.chunk.js",
-    "static/css/main.f506d94b.chunk.css",
-    "static/js/main.56b8c8dd.chunk.js"
+    "static/js/2.832317ee.chunk.js",
+    "static/css/main.b67db1fa.chunk.css",
+    "static/js/main.9655a339.chunk.js"
   ]
 }
