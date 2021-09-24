@@ -11,14 +11,32 @@ const ContainerBox = styled.div`
 
   margin: 0 auto; /* 페이지 중앙에 나타나도록 설정 */
 
-  margin-top: 96px;
-  margin-bottom: 32px;
   padding: 20px;
   overflow: hidden;
 `;
 
+const BodyBox = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      to right,
+      rgba(20, 20, 20, 0.1) 10%,
+      rgba(20, 20, 20, 0.7) 70%,
+      rgba(20, 20, 20, 1)
+    ),
+    url(https://source.unsplash.com/random/1920x1080);
+  background-size: cover;
+`;
+
 const Container = ({ children }) => {
-  return <ContainerBox>{children}</ContainerBox>;
+  return (
+    <BodyBox>
+      <ContainerBox>{children}</ContainerBox>
+    </BodyBox>
+  );
 };
 
 export default Container;

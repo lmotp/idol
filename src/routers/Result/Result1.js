@@ -23,9 +23,8 @@ const Result = () => {
               다시하기
             </button>
           </Link>
-          <h1>
-            {rightCounter},{wrongCounter}
-          </h1>
+          <h2>맞은갯수 : {rightCounter}</h2>
+          <h2>틀린갯수 :{wrongCounter}</h2>
         </div>
       </Container>
     </>

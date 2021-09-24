@@ -3,22 +3,35 @@ import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 import Main from '../images/main.png';
 import '../Css/Main.css';
-const Home = ({ startGame }) => {
+import styled from 'styled-components';
+
+const MainBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+`;
+
+const MainTitle = styled.div``;
+
+const MainImage = styled.img`
+  margin: 35px auto;
+`;
+
+const Home = () => {
   return (
     <>
       <Container>
-        <div className="main">
-          <div className="mainTitle">
-            <h1>무무를 위한</h1>
-            <h2>가사 맞추기 게임</h2>
-          </div>
-          <img className="mainImg" src={Main} alt="메인사진" title="메인사진"></img>
+        <MainBox>
+          <MainTitle>
+            <h1>가사 맞추기 게임</h1>
+          </MainTitle>
+          <MainImage className="mainImg" src={Main} alt="메인사진" title="메인사진"></MainImage>
           <Link to="/game">
-            <button className="startButton" onClick={startGame}>
-              게임을 시작한우~+
-            </button>
+            <button className="startButton">게임 시작</button>
           </Link>
-        </div>
+        </MainBox>
       </Container>
     </>
   );

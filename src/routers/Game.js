@@ -4,6 +4,27 @@ import Container from '../components/Container';
 import { Redirect } from 'react-router-dom';
 import '../Css/Game.css';
 import { useUsersState, useUsersDispatch, useUsersTitle, useUsresLyrics } from '../Users';
+import styled from 'styled-components';
+
+const Button = styled.button`
+  width: 250px;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: transparent;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+  box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.4), -3px -3px 1px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background-color: khaki;
+    color: whitesmoke;
+  }
+`;
+
+const Timer = styled.span``;
 
 function Game() {
   const context = useUsersState();
@@ -15,6 +36,7 @@ function Game() {
   const [seconds, setSeconds] = useState(30);
   const [animation, setAnimation] = useState(true);
   const [disabled, setDisabled] = useState(false);
+  const [timer, setTimer] = useState(false);
 
   // 로딩화면
   useEffect(() => {
@@ -80,39 +102,39 @@ function Game() {
       ) : (
         <Container>
           <h2 className="topBar">
-            {seconds < 10 ? `0${seconds}` : seconds}
+            <span className={timer ? 'wow' : 'wow2'}>{seconds < 10 ? `0${seconds}` : seconds}</span>
             <span>Q{context.counter + 1}/10</span>
           </h2>
           <h1 className="question">{lyrics[context.counter]}</h1>
           <div className="buttonBox">
-            <button
+            <Button
               disabled={disabled}
               className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
               onClick={onClickChangeTitle}
             >
               {shuffleTitle[0]}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={disabled}
               className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
               onClick={onClickChangeTitle}
             >
               {shuffleTitle[1]}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={disabled}
               className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
               onClick={onClickChangeTitle}
             >
               {shuffleTitle[2]}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={disabled}
               className={animation ? 'buttonRightMove' : 'buttonLeftMove'}
               onClick={onClickChangeTitle}
             >
               {shuffleTitle[3]}
-            </button>
+            </Button>
           </div>
         </Container>
       )}
